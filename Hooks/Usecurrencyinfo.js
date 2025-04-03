@@ -4,24 +4,17 @@ function useCurrencyInfo(currency) {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        const fetchCurrencyRates = async () => {
+        const fetchData = async () => {
             try {
-                const response = await fetch(`https://open.er-api.com/v6/latest/${currency}`);
-                const result = await response.json();
-                
-                if (result.rates) {
-                    setData(result.rates);
-                } else {
-                    console.error("Invalid API response:", result);
-                    setData(null);
-                }
+                const res = await fetch(`https://open.er-api.com/v6/latest/${currency}`);
+                const json = await res.json();
+                setData(json.rates);
             } catch (error) {
                 console.error("Error fetching currency data:", error);
-                setData(null);
             }
         };
 
-        fetchCurrencyRates();
+        fetchData(); // Passing argument
     }, [currency]);
 
     return data;
